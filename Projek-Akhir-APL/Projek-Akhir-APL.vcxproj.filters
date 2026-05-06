@@ -68,7 +68,5 @@
     <ClInclude Include="helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    </ItemGroup>
+  </ItemGroup>
 </Project>
-
-

@@ -6,6 +6,10 @@
 
 using namespace std;
 
+vector<iPhone> iphonesDB;
+vector<Reservasi> reservasiDB;
+vector<Transaksi> transaksiDB;
+
 void showWelcomeScreen() {
 	cout << endl;
 	cout << "=======================================" << endl;
@@ -60,7 +64,9 @@ void mainApplicationMenu() {
 	} while (choice != 5);
 }
 
-int main() { 
+int main() {
+	loadData(iphonesDB, usersDB, reservasiDB, transaksiDB);
+
 	int choice;
 	bool isAuthenticated = false;
 
@@ -80,8 +86,10 @@ int main() {
 					break;
 				case 2:
 					registerUser();
+					simpanData(iphonesDB, usersDB, reservasiDB, transaksiDB);
 					break;
 				case 3:
+					simpanData(iphonesDB, usersDB, reservasiDB, transaksiDB);
 					cout << "Exiting the application. Goodbye!" << endl;
 					return 0;
 				default:
@@ -98,6 +106,7 @@ int main() {
 
 	return 0;
 }
+
 
 
 
