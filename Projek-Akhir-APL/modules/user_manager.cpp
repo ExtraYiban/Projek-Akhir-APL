@@ -4,18 +4,27 @@
 
 using namespace std;
 
-bool login(string& outUserId) {
+bool login(string& outUserId, string& outRole) {
     string username, password;
+
     cout << "=== LOGIN ===" << endl;
     cout << "Username: ";
     cin >> username;
+
     cout << "Password: ";
     cin >> password;
 
     for (size_t i = 0; i < usersDB.size(); i++) {
-        if (usersDB[i].username == username && usersDB[i].password == password) {
-            cout << "Login berhasil! Selamat datang " << username << endl;
+
+        if (usersDB[i].username == username &&
+            usersDB[i].password == password) {
+
+            cout << "\nLogin berhasil! Selamat datang "
+                << username << endl;
+
             outUserId = usersDB[i].id;
+            outRole = usersDB[i].role;
+
             return true;
         }
     }
@@ -23,6 +32,7 @@ bool login(string& outUserId) {
     cout << "Login gagal! Username atau password salah." << endl;
     return false;
 }
+
 
 void registerUser() {
     registerUser(usersDB);
