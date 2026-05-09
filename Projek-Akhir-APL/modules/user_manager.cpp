@@ -4,8 +4,6 @@
 
 using namespace std;
 
-vector<User> usersDB;
-
 bool login(string& outUserId) {
     string username, password;
     cout << "=== LOGIN ===" << endl;
@@ -45,6 +43,7 @@ void registerUser(vector<User>& data) {
     newUser.totalSewa = 0;
 
     data.push_back(newUser);
+    cout << "Jumlah user sekarang " << data.size() << endl;
     cout << "Registrasi berhasil! ID User: " << newUser.id << endl;
 }
 

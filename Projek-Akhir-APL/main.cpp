@@ -7,7 +7,7 @@
 using namespace std;
 
 vector<iPhone> iphonesDB;
-
+vector<User> usersDB;
 vector<Reservasi> reservasiDB;
 vector<Transaksi> transaksiDB;
 
@@ -248,6 +248,7 @@ int main() {
 				break;
 			case 2:
 				registerUser();
+                cout << "Jumlah user sekarang " << usersDB.size() << endl;
 				simpanData(iphonesDB, usersDB, reservasiDB, transaksiDB);
 				break;
 			case 3:
