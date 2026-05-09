@@ -1,11 +1,11 @@
 id,model,hargaPerHari,status,kondisi
-IP001,iPhone 12,150000,Tersedia,Baik
-IP002,iPhone 13,200000,Tersedia,Baik
-IP003,iPhone 14,250000,Disewa,Baik
-IP004,iPhone 14 Pro,300000,Tersedia,Baik
-IP005,iPhone 15,350000,Tersedia,Baik
-IP006,iPhone 12 Mini,120000,Maintenance,Rusak
-IP007,iPhone 13 Pro,280000,Tersedia,Baik
-IP008,iPhone 14 Plus,260000,Disewa,Baik
-IP009,iPhone 15 Pro,400000,Tersedia,Baik
-IP010,iPhone 11,100000,Rusak,Rusak
+IP001,iPhone 12,150000,0,Baik
+IP002,iPhone 13,200000,0,Baik
+IP003,iPhone 14,250000,0,Baik
+IP004,iPhone 14 Pro,300000,0,Baik
+IP005,iPhone 15,350000,0,Baik
+IP006,iPhone 12 Mini,120000,0,Rusak
+IP007,iPhone 13 Pro,280000,0,Baik
+IP008,iPhone 14 Plus,260000,0,Baik
+IP009,iPhone 15 Pro,400000,0,Baik
+IP010,iPhone 11,100000,0,Rusak
