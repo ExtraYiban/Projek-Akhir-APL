@@ -1,139 +1,199 @@
 #include "helpers.h"
+#include <iostream>
+#include <limits>
+
 using namespace std;
 
-vector<User> usersDB = {
-    // default admin
-    {"U001", "admin", "admin", "Admin", UserLevel::BARU, 0}
-};
-
-string prosesLogin(vector<User>& users) {
-    header("LOGIN");
-    string u, p;
-    cout << "Username: "; cin >> u;
-    cout << "Password: "; cin >> p;
-    for(auto& usr : users) {
-        if(usr.username == u && usr.password == p) {
-            cout << "Login berhasil. Role: " << usr.role << "\n";
-            return usr.id;
-        }
-    }
-    cout << "Username atau Password salah.\n";
-    return "";
-}
+vector<User> usersDB;
 
 bool login() {
-    string id = prosesLogin(usersDB);
-    if (id != "") {
-        return true;
-    }
-    return false;
-}
+    string username, password;
+    cout << "=== LOGIN ===" << endl;
+    cout << "Username: ";
+    cin >> username;
+    cout << "Password: ";
+    cin >> password;
 
-void tambahUser(vector<User>& data) {
-    header("TAMBAH USER");
-    User u;
-    // Auto-generate user ID (U1, U2...)
-    int idx = data.size() + 1; string genId; bool unique=false;
-    while(!unique) { genId = string("U") + to_string(idx); unique = true; for(auto& x: data) if(x.id==genId){ unique=false; break;} if(!unique) idx++; }
-    u.id = genId; cout << "Assigned ID: " << u.id << "\n";
-    cout << "Username: "; cin >> u.username;
-    cout << "Password: "; cin >> u.password;
-    cout << "Role:\n1. Admin\n2. Customer\nPilihan: "; int r; cin >> r; u.role = (r==1?"Admin":"Customer");
-    int lv; cout << "Level (0=VIP, 1=Regular, 2=Baru): "; cin >> lv;
-    u.level = (UserLevel)lv; u.totalSewa = 0;
-    data.push_back(u);
-}
-
-void editUser(vector<User>& data) {
-    header("EDIT USER");
-    if (data.empty()) { cout << "Tidak ada user.\n"; return; }
-    cout << "Pilih User untuk diedit:\n";
-    for (size_t i=0;i<data.size();++i) cout << i+1 << ". " << data[i].id << " - " << data[i].username << " | " << data[i].role << "\n";
-    cout << "Nomor (0 = batal): "; int pick; cin >> pick; if (pick<=0 || pick>(int)data.size()) { cout<<"Batal.\n"; return; }
-    User* ptr = &data[pick-1];
-    cout << "Username Baru: "; cin.ignore(); getline(cin, ptr->username);
-    int lv; cout << "Level Baru (0/1/2): "; cin >> lv; ptr->level = (UserLevel)lv;
-}
-
-void hapusUser(vector<User>& data) {
-    header("HAPUS USER");
-    if (data.empty()) { cout << "Tidak ada user.\n"; return; }
-    cout << "Pilih User untuk dihapus:\n";
-    for (size_t i=0;i<data.size();++i) cout << i+1 << ". " << data[i].id << " - " << data[i].username << " | " << data[i].role << "\n";
-    cout << "Nomor (0 = batal): "; int pick; cin >> pick; if (pick<=0 || pick>(int)data.size()) { cout<<"Batal.\n"; return; }
-    data.erase(data.begin() + (pick-1)); cout << "Berhasil.\n";
-}
-
-User* cariUser(const vector<User>& data, string id) {
-    for (auto& u : data) if (u.id == id) return (User*)&u;
-    return nullptr;
-}
-
-void tampilkanRiwayatUser(const vector<Transaksi>& trx, const vector<Reservasi>& res, string userId) {
-    header("RIWAYAT USER");
-    bool found = false;
-    for (auto& t : trx) if (t.userId == userId) { tampilkanDetailTransaksi(t); cout << "------------------------------\n"; found = true; }
-    for (auto& r : res) if (r.userId == userId && r.isActive) { tampilkanDetailReservasi(r); cout << "------------------------------\n"; found = true; }
-    if (!found) cout << "Belum ada riwayat.\n";
-}
-
-void lihatPosisiAntrian(const vector<Reservasi>& res, string userId) {
-    header("POSISI ANTRIAN");
-    int posisi = 1;
-    for (auto& r : res) {
-        if (r.isActive) {
-            if (r.userId == userId) { cout << "Reservasi Anda: " << r.idReservasi << " berada di posisi ke-" << posisi << "\n"; return; }
-            posisi++;
+    for (size_t i = 0; i < usersDB.size(); i++) {
+        if (usersDB[i].username == username && usersDB[i].password == password) {
+            cout << "Login berhasil! Selamat datang " << username << endl;
+            return true;
         }
     }
-    cout << "Tidak ada reservasi aktif.\n";
-}
 
-void tampilkanDetailUser(const User& u) {
-    cout << "ID      : " << u.id << "\n";
-    cout << "Username: " << u.username << "\n";
-    cout << "Role    : " << u.role << "\n";
-    string lvl = (u.level==VIP?"VIP":(u.level==REGULAR?"Regular":"Baru"));
-    cout << "Level   : " << lvl << "\n";
-    cout << "TotalSewa: " << u.totalSewa << "\n";
-}
-
-void tampilkanDetailReservasi(const Reservasi& r) {
-    cout << "ID Res   : " << r.idReservasi << "\n";
-    cout << "User ID  : " << r.userId << "\n";
-    cout << "iPhone ID: " << r.iPhoneId << "\n";
-    cout << "Mulai    : " << r.tglMulai << "\n";
-    cout << "Selesai  : " << r.tglSelesai << "\n";
-    cout << "Aktif    : " << (r.isActive?"Ya":"Tidak") << "\n";
-    cout << "WaktuBkng: " << r.waktuBooking << "\n";
-}
-
-void registerUser(vector<User>& data) {
-    header("REGISTER");
-    User u;
-    // Auto-generate unique ID like U1, U2, ...
-    int idx = data.size() + 1;
-    string genId;
-    bool unique = false;
-    while (!unique) {
-        genId = string("U") + to_string(idx);
-        unique = true;
-        for (auto& x : data) if (x.id == genId) { unique = false; break; }
-        if (!unique) idx++;
-    }
-    u.id = genId;
-    cout << "Assigned ID: " << u.id << "\n";
-    cout << "Username: "; cin >> u.username;
-    cout << "Password: "; cin >> u.password;
-    u.role = "Customer";
-    u.level = UserLevel::BARU;
-    u.totalSewa = 0;
-    data.push_back(u);
-    cout << "Registrasi berhasil. ID Anda: " << u.id << "\n";
+    cout << "Login gagal! Username atau password salah." << endl;
+    return false;
 }
 
 void registerUser() {
     registerUser(usersDB);
 }
 
+void registerUser(vector<User>& data) {
+    User newUser;
+    newUser.id = "U" + to_string(data.size() + 1);
 
+    cout << "=== REGISTER ===" << endl;
+    cout << "Username: ";
+    cin >> newUser.username;
+    cout << "Password: ";
+    cin >> newUser.password;
+    cout << "Role (Admin/Customer): ";
+    cin >> newUser.role;
+
+    newUser.level = BARU;
+    newUser.totalSewa = 0;
+
+    data.push_back(newUser);
+    cout << "Registrasi berhasil! ID User: " << newUser.id << endl;
+}
+
+User* cariUser(const vector<User>& data, string id) {
+    for (size_t i = 0; i < data.size(); i++) {
+        if (data[i].id == id) {
+            return const_cast<User*>(&data[i]);
+        }
+    }
+    return nullptr;
+}
+
+void tampilkanDetailUser(const User& u) {
+    cout << "ID: " << u.id << endl;
+    cout << "Username: " << u.username << endl;
+    cout << "Role: " << u.role << endl;
+    cout << "Level: ";
+    switch (u.level) {
+    case VIP: cout << "VIP"; break;
+    case REGULAR: cout << "Regular"; break;
+    case BARU: cout << "Baru"; break;
+    }
+    cout << endl;
+    cout << "Total Sewa: " << u.totalSewa << " kali" << endl;
+}
+
+void tampilkanRiwayatUser(const vector<Transaksi>& trx, const vector<Reservasi>& res, string userId) {
+    header("RIWAYAT PENGGUNA");
+
+    cout << "\n=== Transaksi Selesai ===" << endl;
+    bool adaTransaksi = false;
+    for (size_t i = 0; i < trx.size(); i++) {
+        if (trx[i].userId == userId && trx[i].tglKembali != "-" && !trx[i].tglKembali.empty()) {
+            cout << "ID: " << trx[i].idTransaksi
+                << " | iPhone: " << trx[i].iPhoneId
+                << " | " << trx[i].tglMulai << " - " << trx[i].tglSelesai
+                << " | Total: Rp " << trx[i].totalBayar << endl;
+            adaTransaksi = true;
+        }
+    }
+
+    if (!adaTransaksi) {
+        cout << "Belum ada transaksi selesai." << endl;
+    }
+
+    cout << "\n=== Reservasi Aktif ===" << endl;
+    bool adaAktif = false;
+    for (size_t i = 0; i < res.size(); i++) {
+        if (res[i].userId == userId && res[i].isActive) {
+            cout << "ID: " << res[i].idReservasi
+                << " | iPhone: " << res[i].iPhoneId
+                << " | " << res[i].tglMulai << " - " << res[i].tglSelesai
+                << " | Status: Aktif" << endl;
+            adaAktif = true;
+        }
+    }
+
+    if (!adaAktif) {
+        cout << "Tidak ada reservasi aktif." << endl;
+    }
+}
+
+void lihatPosisiAntrian(const vector<Reservasi>& res, string userId) {
+    header("POSISI ANTRIAN");
+
+    vector<Reservasi> antrianUser;
+    for (size_t i = 0; i < res.size(); i++) {
+        if (res[i].userId == userId && res[i].isActive) {
+            antrianUser.push_back(res[i]);
+        }
+    }
+
+    if (antrianUser.empty()) {
+        cout << "Anda tidak memiliki reservasi dalam antrian." << endl;
+        return;
+    }
+
+    cout << "\nReservasi Anda dalam Antrian:" << endl;
+    for (size_t i = 0; i < antrianUser.size(); i++) {
+        cout << (i + 1) << ". ID: " << antrianUser[i].idReservasi
+            << " | iPhone: " << antrianUser[i].iPhoneId
+            << " | Waktu Booking: " << antrianUser[i].waktuBooking << endl;
+    }
+}
+
+void tampilkanDetailReservasi(const Reservasi& r) {
+    cout << "Reservasi: " << r.idReservasi << endl;
+    cout << "iPhone: " << r.iPhoneId << endl;
+    cout << "Periode: " << r.tglMulai << " - " << r.tglSelesai << endl;
+    cout << "Status: " << (r.isActive ? "Aktif" : "Tidak Aktif") << endl;
+}
+
+void tambahUser(vector<User>& data) {
+    User newUser;
+    newUser.id = "U" + to_string(data.size() + 1);
+
+    cout << "Username: ";
+    cin >> newUser.username;
+    cout << "Password: ";
+    cin >> newUser.password;
+    cout << "Role (Admin/Customer): ";
+    cin >> newUser.role;
+
+    int levelChoice;
+    cout << "Level (1=VIP, 2=Regular, 3=Baru): ";
+    cin >> levelChoice;
+
+    switch (levelChoice) {
+    case 1: newUser.level = VIP; break;
+    case 2: newUser.level = REGULAR; break;
+    default: newUser.level = BARU; break;
+    }
+
+    newUser.totalSewa = 0;
+    data.push_back(newUser);
+    cout << "User berhasil ditambahkan!" << endl;
+}
+
+void editUser(vector<User>& data) {
+    string id;
+    cout << "Masukkan ID User yang akan diedit: ";
+    cin >> id;
+
+    User* user = cariUser(data, id);
+    if (user == nullptr) {
+        cout << "User tidak ditemukan!" << endl;
+        return;
+    }
+
+    cout << "Username baru: ";
+    cin >> user->username;
+    cout << "Password baru: ";
+    cin >> user->password;
+
+    cout << "User berhasil diupdate!" << endl;
+}
+
+void hapusUser(vector<User>& data) {
+    string id;
+    cout << "Masukkan ID User yang akan dihapus: ";
+    cin >> id;
+
+    for (size_t i = 0; i < data.size(); i++) {
+        if (data[i].id == id) {
+            data.erase(data.begin() + i);
+            cout << "User berhasil dihapus!" << endl;
+            return;
+        }
+    }
+
+    cout << "User tidak ditemukan!" << endl;
+}

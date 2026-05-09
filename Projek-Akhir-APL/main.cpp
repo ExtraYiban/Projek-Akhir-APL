@@ -7,6 +7,7 @@
 using namespace std;
 
 vector<iPhone> iphonesDB;
+
 vector<Reservasi> reservasiDB;
 vector<Transaksi> transaksiDB;
 
@@ -22,7 +23,7 @@ void showWelcomeScreen() {
 	cout << "Please select an option: ";
 }
 
-void mainApplicationMenu() {
+void mainApplicationMenu(string userId) {
 	int choice;
 	do {
 		cout << endl;
@@ -43,23 +44,31 @@ void mainApplicationMenu() {
 		}
 
 		switch (choice) {
-			case 1:
-				cout << "Membuka Informasi iPhone..." << endl;
-				break;
-			case 2:
-				cout << "Membuka Reservasi..." << endl;
-				break;
-			case 3:
-				cout << "Membuka Penyewaan Aktif..." << endl;
-				break;
-			case 4:
-				cout << "Membuka Riwayat..." << endl;
-				break;
-			case 5:
-				cout << "Logging out..." << endl;
-				break;
-			default:
-				cout << "Pilihan tidak valid. Silakan coba lagi." << endl;
+		case 1:
+			cout << "Membuka Informasi iPhone..." << endl;
+			tampilkaniPhone(iphonesDB);
+			break;
+		case 2:
+			cout << "Membuka Reservasi..." << endl;
+			checkOutiPhone(reservasiDB, iphonesDB, transaksiDB, usersDB);
+			simpanData(iphonesDB, usersDB, reservasiDB, transaksiDB);
+			break;
+		case 3:
+			cout << "Membuka Penyewaan Aktif..." << endl;
+			checkIniPhone(transaksiDB, iphonesDB, usersDB);
+			simpanData(iphonesDB, usersDB, reservasiDB, transaksiDB);
+			break;
+		case 4:
+			cout << "Membuka Riwayat..." << endl;
+			tampilkanRiwayatUser(transaksiDB, reservasiDB, userId);
+			cout << endl;
+			lihatPosisiAntrian(reservasiDB, userId);
+			break;
+		case 5:
+			cout << "Logging out..." << endl;
+			break;
+		default:
+			cout << "Pilihan tidak valid. Silakan coba lagi." << endl;
 		}
 	} while (choice != 5);
 }
@@ -69,6 +78,7 @@ int main() {
 
 	int choice;
 	bool isAuthenticated = false;
+	string currentUserId = "";
 
 	while (true) {
 		while (!isAuthenticated) {
@@ -81,26 +91,30 @@ int main() {
 			}
 
 			switch (choice) {
-				case 1:
-					isAuthenticated = login();
-					break;
-				case 2:
-					registerUser();
-					simpanData(iphonesDB, usersDB, reservasiDB, transaksiDB);
-					break;
-				case 3:
-					simpanData(iphonesDB, usersDB, reservasiDB, transaksiDB);
-					cout << "Exiting the application. Goodbye!" << endl;
-					return 0;
-				default:
-					cout << "Invalid option. Please try again." << endl;
+			case 1:
+				isAuthenticated = login();
+				if (isAuthenticated && !usersDB.empty()) {
+					currentUserId = usersDB.back().id;
+				}
+				break;
+			case 2:
+				registerUser();
+				simpanData(iphonesDB, usersDB, reservasiDB, transaksiDB);
+				break;
+			case 3:
+				simpanData(iphonesDB, usersDB, reservasiDB, transaksiDB);
+				cout << "Exiting the application. Goodbye!" << endl;
+				return 0;
+			default:
+				cout << "Invalid option. Please try again." << endl;
 			}
 		}
 
 		if (isAuthenticated) {
-			mainApplicationMenu();
+			mainApplicationMenu(currentUserId);
 			// Once they logout from the main menu, require authentication again
-			isAuthenticated = false; 
+			isAuthenticated = false;
+			currentUserId = "";
 		}
 	}
 
