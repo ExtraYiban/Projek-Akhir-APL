@@ -24,7 +24,7 @@ void updateStatusiPhone(iPhone *ptr, StatusiPhone baru);
 
 // User Manager (Admin & Customer)
 extern vector<User> usersDB;
-bool login(string& outUserId);
+bool login(string& outUserId, string& outRole);
 void registerUser();
 void tambahUser(vector<User> &data);
 void editUser(vector<User> &data);

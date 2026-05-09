@@ -225,12 +225,30 @@ void mainApplicationMenu(string userId) {
 	} while (choice != 5);
 }
 
+void menuAdmin(vector<iPhone>& ip, vector<User>& usr, vector<Reservasi>& res, vector<Transaksi>& trx) {
+    cout << "===========================================" << endl;
+	cout << "               MENU ADMIN                  " << endl;
+	cout << "===========================================" << endl;
+    cout << "1. Manajemen Iphone" << endl;
+    cout << "2. Manajemen User" << endl;
+    cout << "3. Kelola Transaksi" << endl;
+    cout << "4. Transaksi" << endl;
+    cout << "5. Laporan" << endl;
+    cout << "6. Logout" << endl;
+    cout << "===========================================" << endl;
+    cout << "Pilihan: ";
+    int pilihanAdmin;
+    cin >> pilihanAdmin;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
 int main() {
 	loadData(iphonesDB, usersDB, reservasiDB, transaksiDB);
 
 	int choice;
 	bool isAuthenticated = false;
-	string currentUserId = "";
+    string currentUserId = "";
+    string currentRole = "";
 
 	while (true) {
 		while (!isAuthenticated) {
@@ -244,7 +262,7 @@ int main() {
 
 			switch (choice) {
 			case 1:
-                isAuthenticated = login(currentUserId);
+                isAuthenticated = login(currentUserId, currentRole);
 				break;
 			case 2:
 				registerUser();
@@ -260,12 +278,33 @@ int main() {
 			}
 		}
 
-		if (isAuthenticated) {
-			mainApplicationMenu(currentUserId);
-			// Once they logout from the main menu, require authentication again
-			isAuthenticated = false;
-			currentUserId = "";
-		}
+        if (isAuthenticated) {
+       
+            if (currentRole == "Admin") {
+
+                menuAdmin(
+                    iphonesDB,
+                    usersDB,
+                    reservasiDB,
+                    transaksiDB
+                );
+
+            }
+            else if (currentRole == "Customer") {
+
+                menuCustomer(
+                    currentUserId,
+                    iphonesDB,
+                    usersDB,
+                    reservasiDB,
+                    transaksiDB
+                );
+            }
+
+            isAuthenticated = false;
+            currentUserId = "";
+            currentRole = "";
+        }
 	}
 
 	return 0;
