@@ -244,10 +244,7 @@ int main() {
 
 			switch (choice) {
 			case 1:
-				isAuthenticated = login();
-				if (isAuthenticated && !usersDB.empty()) {
-					currentUserId = usersDB.back().id;
-				}
+                isAuthenticated = login(currentUserId);
 				break;
 			case 2:
 				registerUser();

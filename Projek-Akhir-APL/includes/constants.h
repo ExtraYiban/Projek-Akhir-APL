@@ -2,7 +2,7 @@
 #include <string>
 using namespace std;
 
-enum StatusiPhone { TERSEDIA, DISEWA, MAINTENANCE };
+enum StatusiPhone { Tersedia, Disewa, Maintenance, Rusak };
 enum UserLevel { VIP, REGULAR, BARU };
 
 const double HARGA_DASAR_PER_HARI = 50000.0;

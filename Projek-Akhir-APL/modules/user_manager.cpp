@@ -6,7 +6,7 @@ using namespace std;
 
 vector<User> usersDB;
 
-bool login() {
+bool login(string& outUserId) {
     string username, password;
     cout << "=== LOGIN ===" << endl;
     cout << "Username: ";
@@ -17,6 +17,7 @@ bool login() {
     for (size_t i = 0; i < usersDB.size(); i++) {
         if (usersDB[i].username == username && usersDB[i].password == password) {
             cout << "Login berhasil! Selamat datang " << username << endl;
+            outUserId = usersDB[i].id;
             return true;
         }
     }
