@@ -5,27 +5,68 @@
 using namespace std;
 
 void cetakTabeliPhone(const vector<iPhone>& data) {
-    cout << "No  ID        Model            Harga/Hari    Status      Kondisi" << endl;
-    cout << "------------------------------------------------------------------------" << endl;
-
     if (data.size() == 0) {
         cout << "Tidak ada iPhone yang tersedia" << endl;
     }
     else {
         for (int i = 0; i < data.size(); i++) {
-            cout << (i + 1) << "   " << data[i].id << "  " << data[i].model;
-            cout << "\t\t Rp " << data[i].hargaPerHari;
 
-            if (data[i].status == StatusiPhone::Tersedia) cout << "\t Tersedia";
-            else if (data[i].status == StatusiPhone::Disewa) cout << "\t Disewa";
-            else if (data[i].status == StatusiPhone::Maintenance) cout << "\t Maintenance";
-            else if (data[i].status == StatusiPhone::Rusak) cout << "\t Rusak";
-            else cout << "\t Tidak diketahui";
+            string status;
 
-            cout << "\t " << data[i].kondisi << endl;
+            if (data[i].status == StatusiPhone::Tersedia)
+                status = "Tersedia";
+            else if (data[i].status == StatusiPhone::Disewa)
+                status = "Disewa";
+            else if (data[i].status == StatusiPhone::Maintenance)
+                status = "Maintenance";
+            else if (data[i].status == StatusiPhone::Rusak)
+                status = "Rusak";
+            else
+                status = "Tidak diketahui";
+
+            cout << "+------------------------------------------------------+\n";
+
+            cout << "|"
+                << setw(54) << left
+                << (" Data iPhone ke-" + to_string(i + 1))
+                << "|\n";
+
+            cout << "+------------------------------------------------------+\n";
+
+            cout << "| "
+                << setw(15) << left << "ID"
+                << ": "
+                << setw(35) << left << data[i].id
+                << " |\n";
+
+            cout << "| "
+                << setw(15) << left << "Model"
+                << ": "
+                << setw(35) << left << data[i].model
+                << " |\n";
+
+            cout << "| "
+                << setw(15) << left << "Harga / Hari"
+                << ": Rp "
+                << setw(32) << left << fixed << setprecision(0)
+                << data[i].hargaPerHari
+                << " |\n";
+
+            cout << "| "
+                << setw(15) << left << "Status"
+                << ": "
+                << setw(35) << left << status
+                << " |\n";
+
+            cout << "| "
+                << setw(15) << left << "Kondisi"
+                << ": "
+                << setw(35) << left << data[i].kondisi
+                << " |\n";
+
+            cout << "+------------------------------------------------------+\n\n";
         }
     }
-    cout << "------------------------------------------------------------------------" << endl;
 }
 void tampilkaniPhone(const vector<iPhone>& data) {
     cout << "DAFTAR iPHONE TERSEDIA" << endl;
