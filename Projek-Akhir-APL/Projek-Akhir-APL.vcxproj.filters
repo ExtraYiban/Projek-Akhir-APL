@@ -21,40 +21,40 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="user_manager.cpp">
+    <ClCompile Include="modules\user_manager.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="core_rental.cpp">
+    <ClCompile Include="modules\core_rental.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="validator.cpp">
+    <ClCompile Include="utils\validator.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="transactions.cpp">
+    <ClCompile Include="modules\transactions.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="priority.cpp">
+    <ClCompile Include="modules\priority.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="reports.cpp">
+    <ClCompile Include="modules\reports.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="file_io.cpp">
+    <ClCompile Include="utils\file_io.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="users.csv">
+    <None Include="data\users.csv">
       <Filter>data</Filter>
     </None>
-    <None Include="iphones.csv">
+    <None Include="data\iphones.csv">
       <Filter>data</Filter>
     </None>
-    <None Include="reservations.csv">
+    <None Include="data\reservations.csv">
       <Filter>data</Filter>
     </None>
-    <None Include="transactions.csv">
+    <None Include="data\transactions.csv">
       <Filter>data</Filter>
     </None>
   </ItemGroup>

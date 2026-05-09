@@ -30,26 +30,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -124,26 +124,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="core_rental.cpp" />
-    <ClCompile Include="file_io.cpp" />
+    <ClCompile Include="modules\core_rental.cpp" />
+    <ClCompile Include="utils\file_io.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="priority.cpp" />
-    <ClCompile Include="reports.cpp" />
-    <ClCompile Include="transactions.cpp" />
-    <ClCompile Include="user_manager.cpp" />
-    <ClCompile Include="validator.cpp" />
+    <ClCompile Include="modules\priority.cpp" />
+    <ClCompile Include="modules\reports.cpp" />
+    <ClCompile Include="modules\transactions.cpp" />
+    <ClCompile Include="modules\user_manager.cpp" />
+    <ClCompile Include="utils\validator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="iphones.csv" />
+    <None Include="data\iphones.csv" />
     <None Include="packages.config" />
-    <None Include="reservations.csv" />
-    <None Include="transactions.csv" />
-    <None Include="users.csv" />
+    <None Include="data\reservations.csv" />
+    <None Include="data\transactions.csv" />
+    <None Include="data\users.csv" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="helpers.h" />
-    <ClInclude Include="structs.h" />
+    <ClInclude Include="includes\constants.h" />
+    <ClInclude Include="includes\helpers.h" />
+    <ClInclude Include="includes\structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

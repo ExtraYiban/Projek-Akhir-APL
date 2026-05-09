@@ -1,4 +1,4 @@
-#include "helpers.h"
+#include "../includes/helpers.h"
 #include <iostream>
 #include <limits>
 
@@ -38,8 +38,7 @@ void registerUser(vector<User>& data) {
     cin >> newUser.username;
     cout << "Password: ";
     cin >> newUser.password;
-    cout << "Role (Admin/Customer): ";
-    cin >> newUser.role;
+    newUser.role = "Customer";
 
     newUser.level = BARU;
     newUser.totalSewa = 0;
