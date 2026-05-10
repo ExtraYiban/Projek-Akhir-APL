@@ -25,6 +25,7 @@ double hitungBiaya(const iPhone& ip, int durasi, int terlambat, UserLevel level)
 
 void checkOutiPhone(vector<Reservasi>& antrian, vector<iPhone>& stok, vector<Transaksi>& histori, vector<User>& usr) {
     header("BUAT RESERVASI");
+    (void)histori;
 
     if (stok.empty()) {
         cout << "Tidak ada iPhone tersedia." << endl;
@@ -315,13 +316,11 @@ void tambahiPhone(vector<iPhone>& data) {
     newIP.id = "IPH" + to_string(data.size() + 1);
 
     cout << "Model: ";
-    cin.ignore();
-    getline(cin, newIP.model);
+    getline(cin >> ws, newIP.model);
     cout << "Harga per hari: ";
     cin >> newIP.hargaPerHari;
     cout << "Kondisi: ";
-    cin.ignore();
-    getline(cin, newIP.kondisi);
+    getline(cin >> ws, newIP.kondisi);
 
     newIP.status = StatusiPhone::Tersedia;
     data.push_back(newIP);
@@ -340,8 +339,7 @@ void editiPhone(vector<iPhone>& data) {
     }
 
     cout << "Model baru: ";
-    cin.ignore();
-    getline(cin, ip->model);
+    getline(cin >> ws, ip->model);
     cout << "Harga baru: ";
     cin >> ip->hargaPerHari;
 

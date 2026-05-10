@@ -9,7 +9,7 @@ void cetakTabeliPhone(const vector<iPhone>& data) {
         cout << "Tidak ada iPhone yang tersedia" << endl;
     }
     else {
-        for (int i = 0; i < data.size(); i++) {
+        for (size_t i = 0; i < data.size(); i++) {
 
             string status;
 
@@ -72,7 +72,7 @@ void tampilkaniPhone(const vector<iPhone>& data) {
     cout << "DAFTAR iPHONE TERSEDIA" << endl;
 
     vector<iPhone> hasil;
-    for (int i = 0; i < data.size(); i++) {
+    for (size_t i = 0; i < data.size(); i++) {
         if (data[i].status == StatusiPhone::Tersedia) {
             hasil.push_back(data[i]);
         }
@@ -92,7 +92,7 @@ void filteriPhoneByStatus(const vector<iPhone>& data, StatusiPhone statusFilter)
     cout << endl << endl;
 
     vector<iPhone> hasil;
-    for (int i = 0; i < data.size(); i++) {
+    for (size_t i = 0; i < data.size(); i++) {
         if (data[i].status == statusFilter) {
             hasil.push_back(data[i]);
         }
@@ -121,20 +121,20 @@ void tampilkanDetailiPhone(const iPhone& ip) {
     }
     else {
         cout << endl;
-        for (int i = 0; i < ip.jadwal.size(); i++) {
+        for (size_t i = 0; i < ip.jadwal.size(); i++) {
             cout << "  - " << ip.jadwal[i].tglMulai << " s/d " << ip.jadwal[i].tglSelesai << endl;
         }
     }
 }
 iPhone* cariiPhone(const vector<iPhone>& data, string keyword) {
-    for (int i = 0; i < data.size(); i++) {
+    for (size_t i = 0; i < data.size(); i++) {
 
         if (data[i].id == keyword) {
             return (iPhone*)&data[i];
         }
         if (keyword.length() <= data[i].model.length()) {
             bool ketemu = true;
-            for (int j = 0; j < keyword.length(); j++) {
+            for (size_t j = 0; j < keyword.length(); j++) {
                 if (keyword[j] != data[i].model[j]) {
                     ketemu = false;
                     break;
@@ -145,5 +145,5 @@ iPhone* cariiPhone(const vector<iPhone>& data, string keyword) {
             }
         }
     }
-    return 0;
+    return nullptr;
 }

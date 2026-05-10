@@ -11,6 +11,227 @@ vector<User> usersDB;
 vector<Reservasi> reservasiDB;
 vector<Transaksi> transaksiDB;
 
+string statusToString(StatusiPhone status) {
+    if (status == StatusiPhone::Tersedia) return "Tersedia";
+    if (status == StatusiPhone::Disewa) return "Disewa";
+    if (status == StatusiPhone::Maintenance) return "Maintenance";
+    if (status == StatusiPhone::Rusak) return "Rusak";
+    return "Tidak diketahui";
+}
+
+void tekanEnterLanjut() {
+    cout << "\nTekan Enter untuk lanjut...";
+    cin.get();
+}
+
+void menuManajemenIphone(vector<iPhone>& ip) {
+    while (true) {
+        cout << "\n===========================================" << endl;
+        cout << "            MANAJEMEN IPHONE              " << endl;
+        cout << "===========================================" << endl;
+        cout << "1. Lihat Semua iPhone" << endl;
+        cout << "2. Cari Detail iPhone" << endl;
+        cout << "3. Tambah iPhone" << endl;
+        cout << "4. Edit iPhone" << endl;
+        cout << "5. Hapus iPhone" << endl;
+        cout << "6. Kembali" << endl;
+        cout << "===========================================" << endl;
+        cout << "Pilihan: ";
+
+        int pilihan;
+        while (!(cin >> pilihan)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Input tidak valid. Masukkan angka: ";
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        switch (pilihan) {
+        case 1: {
+            if (ip.empty()) {
+                cout << "Belum ada data iPhone.\n";
+            }
+            else {
+                for (size_t i = 0; i < ip.size(); ++i) {
+                    cout << i + 1 << ". " << ip[i].id << " | " << ip[i].model
+                         << " | Rp " << ip[i].hargaPerHari
+                         << " | " << statusToString(ip[i].status)
+                         << " | " << ip[i].kondisi << endl;
+                }
+            }
+            tekanEnterLanjut();
+            break;
+        }
+        case 2: {
+            cout << "Masukkan keyword (ID/model): ";
+            string keyword;
+            getline(cin, keyword);
+
+            iPhone* hasil = cariiPhone(ip, keyword);
+            if (hasil) {
+                tampilkanDetailiPhone(*hasil);
+            }
+            else {
+                cout << "iPhone tidak ditemukan.\n";
+            }
+            tekanEnterLanjut();
+            break;
+        }
+        case 3:
+            tambahiPhone(ip);
+            tekanEnterLanjut();
+            break;
+        case 4:
+            editiPhone(ip);
+            tekanEnterLanjut();
+            break;
+        case 5:
+            hapusiPhone(ip);
+            tekanEnterLanjut();
+            break;
+        case 6:
+            return;
+        default:
+            cout << "Pilihan tidak valid.\n";
+            tekanEnterLanjut();
+        }
+    }
+}
+
+void menuManajemenUser(vector<User>& usr) {
+    while (true) {
+        cout << "\n===========================================" << endl;
+        cout << "              MANAJEMEN USER              " << endl;
+        cout << "===========================================" << endl;
+        cout << "1. Lihat Semua User" << endl;
+        cout << "2. Lihat Detail User" << endl;
+        cout << "3. Tambah User" << endl;
+        cout << "4. Edit User" << endl;
+        cout << "5. Hapus User" << endl;
+        cout << "6. Kembali" << endl;
+        cout << "===========================================" << endl;
+        cout << "Pilihan: ";
+
+        int pilihan;
+        while (!(cin >> pilihan)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Input tidak valid. Masukkan angka: ";
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        switch (pilihan) {
+        case 1: {
+            if (usr.empty()) {
+                cout << "Belum ada data user.\n";
+            }
+            else {
+                for (size_t i = 0; i < usr.size(); ++i) {
+                    cout << i + 1 << ". " << usr[i].id << " | " << usr[i].username
+                         << " | " << usr[i].role << " | total sewa: " << usr[i].totalSewa << endl;
+                }
+            }
+            tekanEnterLanjut();
+            break;
+        }
+        case 2: {
+            cout << "Masukkan ID user: ";
+            string id;
+            getline(cin, id);
+
+            User* target = cariUser(usr, id);
+            if (target) {
+                tampilkanDetailUser(*target);
+            }
+            else {
+                cout << "User tidak ditemukan.\n";
+            }
+            tekanEnterLanjut();
+            break;
+        }
+        case 3:
+            tambahUser(usr);
+            tekanEnterLanjut();
+            break;
+        case 4:
+            editUser(usr);
+            tekanEnterLanjut();
+            break;
+        case 5:
+            hapusUser(usr);
+            tekanEnterLanjut();
+            break;
+        case 6:
+            return;
+        default:
+            cout << "Pilihan tidak valid.\n";
+            tekanEnterLanjut();
+        }
+    }
+}
+
+void menuLaporanAdmin(const vector<Transaksi>& trx, const vector<User>& usr, const vector<iPhone>& ip, const vector<Reservasi>& res) {
+    while (true) {
+        cout << "\n===========================================" << endl;
+        cout << "                 LAPORAN                  " << endl;
+        cout << "===========================================" << endl;
+        cout << "1. Laporan Pendapatan" << endl;
+        cout << "2. Laporan iPhone Populer" << endl;
+        cout << "3. Laporan User Aktif" << endl;
+        cout << "4. Laporan Pendapatan per Bulan" << endl;
+        cout << "5. Laporan Okupansi iPhone" << endl;
+        cout << "6. Laporan Konversi Reservasi" << endl;
+        cout << "7. Laporan Top User by Spending" << endl;
+        cout << "8. Kembali" << endl;
+        cout << "===========================================" << endl;
+        cout << "Pilihan: ";
+
+        int pilihan;
+        while (!(cin >> pilihan)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Input tidak valid. Masukkan angka: ";
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        switch (pilihan) {
+        case 1:
+            laporanPendapatan(trx);
+            tekanEnterLanjut();
+            break;
+        case 2:
+            laporaniPhonePopuler(trx);
+            tekanEnterLanjut();
+            break;
+        case 3:
+            laporanUserAktif(trx, usr);
+            tekanEnterLanjut();
+            break;
+        case 4:
+            laporanPendapatanPerBulan(trx);
+            tekanEnterLanjut();
+            break;
+        case 5:
+            laporanOkupansiIphone(trx, ip);
+            tekanEnterLanjut();
+            break;
+        case 6:
+            laporanKonversiReservasi(res, trx);
+            tekanEnterLanjut();
+            break;
+        case 7:
+            laporanTopUserBySpending(trx, usr);
+            tekanEnterLanjut();
+            break;
+        case 8:
+            return;
+        default:
+            cout << "Pilihan tidak valid.\n";
+            tekanEnterLanjut();
+        }
+    }
+}
+
 void showWelcomeScreen() {
 	cout << endl;
 	cout << "=======================================" << endl;
@@ -226,20 +447,58 @@ void mainApplicationMenu(string userId) {
 }
 
 void menuAdmin(vector<iPhone>& ip, vector<User>& usr, vector<Reservasi>& res, vector<Transaksi>& trx) {
-    cout << "===========================================" << endl;
-	cout << "               MENU ADMIN                  " << endl;
-	cout << "===========================================" << endl;
-    cout << "1. Manajemen Iphone" << endl;
-    cout << "2. Manajemen User" << endl;
-    cout << "3. Kelola Transaksi" << endl;
-    cout << "4. Transaksi" << endl;
-    cout << "5. Laporan" << endl;
-    cout << "6. Logout" << endl;
-    cout << "===========================================" << endl;
-    cout << "Pilihan: ";
-    int pilihanAdmin;
-    cin >> pilihanAdmin;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    while (true) {
+        cout << "===========================================" << endl;
+	    cout << "               MENU ADMIN                  " << endl;
+	    cout << "===========================================" << endl;
+        cout << "1. Manajemen Iphone" << endl;
+        cout << "2. Manajemen User" << endl;
+        cout << "3. Kelola Transaksi" << endl;
+        cout << "4. Transaksi" << endl;
+        cout << "5. Laporan" << endl;
+        cout << "6. Logout" << endl;
+        cout << "===========================================" << endl;
+        cout << "Pilihan: ";
+
+        int pilihanAdmin;
+        while (!(cin >> pilihanAdmin)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Input tidak valid. Masukkan angka: ";
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        switch (pilihanAdmin) {
+        case 1:
+            menuManajemenIphone(ip);
+            simpanData(ip, usr, res, trx);
+            break;
+        case 2:
+            menuManajemenUser(usr);
+            simpanData(ip, usr, res, trx);
+            break;
+        case 3:
+            batalkanReservasiByAdmin(res, ip);
+            simpanData(ip, usr, res, trx);
+            tekanEnterLanjut();
+            break;
+        case 4:
+            checkIniPhone(trx, ip, usr);
+            simpanData(ip, usr, res, trx);
+            tekanEnterLanjut();
+            break;
+        case 5:
+            menuLaporanAdmin(trx, usr, ip, res);
+            break;
+        case 6:
+            simpanData(ip, usr, res, trx);
+            cout << "Logout admin berhasil.\n";
+            return;
+        default:
+            cout << "Pilihan tidak valid.\n";
+            tekanEnterLanjut();
+        }
+    }
 }
 
 int main() {

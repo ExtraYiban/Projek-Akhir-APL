@@ -55,6 +55,10 @@ double hitungBiaya(const iPhone &ip, int durasi, int terlambat, UserLevel level)
 void laporanPendapatan(const vector<Transaksi> &histori);
 void laporaniPhonePopuler(const vector<Transaksi> &histori);
 void laporanUserAktif(const vector<Transaksi> &histori, const vector<User> &users);
+void laporanPendapatanPerBulan(const vector<Transaksi> &histori);
+void laporanOkupansiIphone(const vector<Transaksi> &histori, const vector<iPhone> &iphones);
+void laporanKonversiReservasi(const vector<Reservasi> &reservasi, const vector<Transaksi> &histori);
+void laporanTopUserBySpending(const vector<Transaksi> &histori, const vector<User> &users);
 
 // Validator & I/O
 bool validasiTanggal(string tgl);
