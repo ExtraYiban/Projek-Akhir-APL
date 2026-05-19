@@ -1,8 +1,6 @@
-id,username,password,role,level,totalSewa
-U001,admin,admin,Admin,1,0
-U002,zidan,021,Customer,0,3
-U003,desti,001,Customer,0,1
-U004,ahmad,pass123,Customer,1,5
-U005,siti,siti456,Customer,2,2
-U006,budi,budi789,Customer,0,0
-U007,ana,ana321,Customer,1,4
+id,name,phone,username,password,role,is_vip
+ADM001,Administrator,08000000000,admin,admin123,admin,false
+USR001,Andi Pratama,08111111111,andi,andipass,customer,true
+USR002,Siti Rahma,08222222222,siti,sitipass,customer,false
+USR003,Budi Santoso,08333333333,budi,budipass,customer,true
+USR004,Dewi Lestari,08444444444,dewi,dewipass,customer,false
